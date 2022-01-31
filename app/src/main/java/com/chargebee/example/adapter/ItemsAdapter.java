@@ -11,21 +11,21 @@ import java.util.List;
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
 
     private List<String> mItemList;
-    private ItemsAdapter.ItemClickListener mClickListener;
+    private ItemClickListener mClickListener;
 
-    public ItemsAdapter(List<String> mItemList, ItemsAdapter.ItemClickListener mClickListener) {
+    public ItemsAdapter(List<String> mItemList, ItemClickListener mClickListener) {
         this.mItemList = mItemList;
         this.mClickListener = mClickListener;
     }
 
     @Override
-    public ItemsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item,parent,false);
-        return new ItemsAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ItemsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         String itemName = mItemList.get(position);
         holder.myTextView.setText(itemName);
     }

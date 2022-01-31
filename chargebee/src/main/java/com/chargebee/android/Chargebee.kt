@@ -27,8 +27,8 @@ object Chargebee {
         this.publishableApiKey = publishableApiKey
         this.site = site
         this.encodedApiKey = Credentials.basic(publishableApiKey, "")
-        //this.baseUrl = "https://${site}.chargebee.com/api/"
-         this.baseUrl = "https://${site}.predev37.in/api/"  //check Plans API
+        this.baseUrl = "https://${site}.chargebee.com/api/"
+       //  this.baseUrl = "https://${site}.predev37.in/api/"  //check Plans API
        //  this.baseUrl = "https://${site}.predev51.in/api/"  //Process purchase API
         this.allowErrorLogging = allowErrorLogging
         this.sdkKey = sdkKey

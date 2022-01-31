@@ -13,7 +13,7 @@ import java.util.List;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
 
     private List<Products> mProductsList;
-    private ProductListAdapter.ProductClickListener mClickListener;
+    private ProductClickListener mClickListener;
     private Context mContext = null;
 
     public ProductListAdapter(Context context, List<Products> mProductsList, ProductClickListener mClickListener) {
@@ -23,13 +23,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     }
 
     @Override
-    public ProductListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.load_products_item,parent,false);
-        return new ProductListAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ProductListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         Products products = mProductsList.get(position);
         holder.mTextViewTitle.setText(products.getProductId());
         holder.mTextViewPrice.setText(products.getProductPrice());
