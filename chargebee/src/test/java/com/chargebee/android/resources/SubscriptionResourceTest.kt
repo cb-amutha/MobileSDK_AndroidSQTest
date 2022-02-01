@@ -29,7 +29,7 @@ class SubscriptionResourceTest {
         Chargebee.configure(
             site = "cb-imay-test",
             publishableApiKey = "test_EojsGoGFeHoc3VpGPQDOZGAxYy3d0FF3",
-            sdkKey = "cb-j53yhbfmtfhfhkmhow3ramecom"
+            sdkKey = "cb-x2wiixyjr5bl5ihugstyp2exbi"
         )
 
     }
@@ -40,7 +40,8 @@ class SubscriptionResourceTest {
     @Test
     fun test_subscriptionStatus_success(){
 
-        val subscriptionDetail = SubscriptionDetail("123","item","active")
+        val subscriptionDetail = SubscriptionDetail("123","item","active","current term",
+        "","","")
         val queryParam = "0000987657"
         val lock = CountDownLatch(1)
         SubscriptionDetail.retrieveSubscription(queryParam) {

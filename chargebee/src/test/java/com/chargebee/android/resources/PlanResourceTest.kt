@@ -30,7 +30,7 @@ class PlanResourceTest {
         Chargebee.configure(
             site = "cb-imay-test",
             publishableApiKey = "test_EojsGoGFeHoc3VpGPQDOZGAxYy3d0FF3",
-            sdkKey = "cb-j53yhbfmtfhfhkmhow3ramecom"
+            sdkKey = "cb-x2wiixyjr5bl5ihugstyp2exbi"
         )
 
     }
