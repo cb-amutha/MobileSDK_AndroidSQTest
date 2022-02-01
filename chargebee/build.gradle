@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'jacoco'
+apply plugin: 'jacoco'
 
 android {
     compileSdkVersion 29
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "0.1.1-SNAPSHOT"
@@ -17,20 +17,27 @@ android {
     }
 
     buildTypes {
+        debug {
+            testCoverageEnabled = true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
-//    testOptions {
-//        unitTests.all {
-//            jacoco {
-//                includeNoLocationClasses = true
-//            }
-//        }
-//    }
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
 
+}
+
+jacoco {
+    toolVersion = "0.7.4.201502262128"
 }
 
 dependencies {
@@ -72,30 +79,19 @@ ext {
 
 apply from: 'deploy.gradle'
 
-//task createTestReports(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
-//    group = "Reporting"
-//
-//    reports {
-//        xml.enabled = true
-//        html.enabled = true
-//    }
-//
-//    def fileFilter = ['**/R.class',
-//                      '**/R$*.class',
-//                      '**/BuildConfig.*',
-//                      '**/*$ViewInjector*.*',
-//                      '**/*$ViewBinder*.*',
-//                      '**/*$MembersInjector*.*',
-//                      '**/Manifest*.*',
-//                      '**/*Test*.*',
-//                      'android/**/*.*']
-//    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/dev/debug", excludes: fileFilter)
-//    def mainSrc = "${project.projectDir}/src/main/java"
-//
-//    sourceDirectories = files([mainSrc])
-//    classDirectories = files([debugTree])
-//
-//    executionData = files("${project.buildDir}/jacoco/testDevDebugUnitTest.exec")
-//    def files = fileTree("${buildDir}/outputs/code-coverage/connected/flavors/DEV/").filter { it.isFile() }.files.name
-//    instrumentationFileName = "${buildDir}/outputs/code-coverage/connected/flavors/DEV/" + files[0];
-//}
+task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    getSourceDirectories().setFrom([mainSrc])
+    getClassDirectories().setFrom([debugTree])
+    getExecutionData().setFrom("${buildDir}/jacoco/testDebugUnitTest.exec")
+}
+
