@@ -30,8 +30,10 @@ android {
         unitTests.all {
             jacoco {
                 includeNoLocationClasses = true
+                excludes = ['jdk.internal.*']
             }
         }
+        unitTests.returnDefaultValues = true
     }
 
     lintOptions {
@@ -104,3 +106,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
     getExecutionData().setFrom("${buildDir}/jacoco/testDebugUnitTest.exec")
 }
 
+//tasks.withType(Test) {
+//    jacoco.includeNoLocationClasses = true
+//    jacoco.excludes = ['jdk.internal.*']
+//}
