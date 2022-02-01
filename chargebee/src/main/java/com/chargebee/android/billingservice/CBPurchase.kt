@@ -1,5 +1,6 @@
 package com.chargebee.android.billingservice
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils
 import android.util.Log
@@ -19,6 +20,7 @@ import okhttp3.Credentials
 import java.util.ArrayList
 object CBPurchase {
 
+    @SuppressLint("StaticFieldLeak")
     var billingClientManager: BillingClientManager? = null
     val productIdList = arrayListOf<String>()
     var price: String = ""
