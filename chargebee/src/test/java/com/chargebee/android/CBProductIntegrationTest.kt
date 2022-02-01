@@ -402,9 +402,9 @@ class CBProductIntegrationTest  {
     @Test
     fun test_validateReceipt_Success(){
         val lock = CountDownLatch(1)
-        val plan = Items("", "", "", "")
+        //val plan = Items("", "", "", "")
         val purchaseToken = "89hndmdbsfksdjfsfsvfmfsdf"
-        val jsonObject = JsonObject()
+        //val jsonObject = JsonObject()
         val data = "{\"productId\":\"merchant.pro.android\",\"purchaseTime\":1637579709637,\"purchaseToken\":\"lggjdfegkeggmihablmgddkl.AO-J1OzRbdGGlLJiync-PQTLD2iu8e2Ovh9Oqd_xCPnWgf_n8RMCutX6_WCkV0sQXcsuoWD091J42wRpz5ACofrv6-wDXyX6ymqmCZifNneXzF36OxUwrbc\",\"quantity\":1," +
                 "type : SKUTYPE}"
         val skuDetails = SkuDetails(data)

@@ -45,7 +45,7 @@ class BillingClientManager constructor(
             BillingClient.BillingResponseCode.OK -> {
                 Log.i(
                     TAG,
-                    "onBillingSetupFinished() -> successfully for ${billingClient?.toString()}."
+                    "onBillingSetupFinished() -> successfully for $billingClient."
                 )
                 callBack?.let { loadProductDetails(BillingClient.SkuType.SUBS, listIds, it) }
             }
