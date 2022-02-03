@@ -7,7 +7,7 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   build:
-    name: Build
+    name: Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -55,9 +55,9 @@ jobs:
            ${{ runner.os }}-gradle-
      - name: Unit tests
        run: ./gradlew :chargebee:testDebugUnitTest
-     - uses: actions/upload-artifact@v2
-       if: failure()
-       with:
-          name: unit-test-report
-          path: chargebee/build/reports/tests/testDebugUnitTest/        
+#      - uses: actions/upload-artifact@v2
+#        if: failure()
+#        with:
+#           name: unit-test-report
+#           path: chargebee/build/reports/tests/testDebugUnitTest/        
         
