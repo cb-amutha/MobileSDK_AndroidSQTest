@@ -107,7 +107,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
     def kotlinTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
 
     getSourceDirectories().setFrom([mainSrc])
-    getClassDirectories().setFrom([javaTree, kotlinTree])
+    getClassDirectories().setFrom([debugTree])
     getExecutionData().setFrom("${buildDir}/jacoco/testDebugUnitTest.exec")
 }
 
