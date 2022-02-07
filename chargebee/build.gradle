@@ -116,25 +116,22 @@ ext {
 
 apply from: 'deploy.gradle'
 
-task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
+task jacocoTestReport(name: "jacocoTestRep", type: JacocoReport, dependsOn: 'testDebugUnitTest') {
 
     reports {
         xml.enabled = true
         html.enabled = true
     }
 
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
-    def mainSrc = "${project.projectDir}/src/main/java"
+    def fileFilter = ['**/R.class','**/*Activity.*','**/*Activity*.*', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "${buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = fileTree(dir: "${project.projectDir}/src/main/java", excludes: fileFilter)
 
-    //java compiled classes
-   // def javaTree = fileTree(dir: "$project.buildDir/intermediates/javac/debug/classes", excludes: fileFilter)
-    //kotlin compiled classes
-    def kotlinTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
-
-    getSourceDirectories().setFrom([mainSrc])
-    getClassDirectories().setFrom([kotlinTree])
-    getExecutionData().setFrom("${buildDir}/jacoco/testDebugUnitTest.exec")
+    sourceDirectories.setFrom(files([mainSrc]))
+    classDirectories.setFrom(files([debugTree]))
+    //getExecutionData().setFrom("${buildDir}/jacoco/testDebugUnitTest.exec")
+    executionData.setFrom(fileTree(dir: "$buildDir", includes: [
+            "jacoco/testDebugUnitTest.exec"]))
 }
 
 jacocoTestReport {
