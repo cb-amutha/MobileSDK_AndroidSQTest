@@ -1,3 +1,4 @@
+/*
 package com.chargebee.android.billingservice
 
 import android.content.Context
@@ -287,4 +288,4 @@ class BillingClientManagerTest  {
 //            Mockito.verify(CBReceiptRequestBody("receipt","","",""), times(1)).toCBReceiptReqBody()
 //        }
 //    }
-}
+}*/
