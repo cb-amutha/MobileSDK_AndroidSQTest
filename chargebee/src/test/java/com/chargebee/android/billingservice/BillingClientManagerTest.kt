@@ -87,23 +87,23 @@ class BillingClientManagerTest  {
 //        lock.await()
 //    }
 
-    @Test
-    fun test_loadProducts_success(){
-        val productIdList = arrayListOf("merchant.pro.android", "merchant.premium.android")
-
-        billingClient = callBack?.let {
-            BillingClientManager(
-                RuntimeEnvironment.application.applicationContext,
-                BillingClient.SkuType.SUBS,
-                productIdList, it
-            )
-        }
-
-        billingClient?.startBillingServiceConnection()
-        billingClient?.queryAllPurchases()
-
-        //Mockito.verify(billingClient, times(1))?.queryAllPurchases()
-    }
+//    @Test
+//    fun test_loadProducts_success(){
+//        val productIdList = arrayListOf("merchant.pro.android", "merchant.premium.android")
+//
+//        billingClient = callBack?.let {
+//            BillingClientManager(
+//                RuntimeEnvironment.application.applicationContext,
+//                BillingClient.SkuType.SUBS,
+//                productIdList, it
+//            )
+//        }
+//
+//        billingClient?.startBillingServiceConnection()
+//        billingClient?.queryAllPurchases()
+//
+//        //Mockito.verify(billingClient, times(1))?.queryAllPurchases()
+//    }
 
 //    @Test
 //    fun test_retrieveProducts_error(){
