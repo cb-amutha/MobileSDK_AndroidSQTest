@@ -31,9 +31,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Run Coverage
-        run: |
-          chmod +x gradlew
-          ./gradlew testCoverage
+        run: ./gradlew :chargebee:testDebugUnitTest
       - name: Add coverage to PR
         id: jacoco
         uses: madrapps/jacoco-report@v1.2
@@ -43,7 +41,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew build sonarqube --info
+        run: ./gradlew build
   unit_tests:
     name: Unit tests
     runs-on: ubuntu-latest
