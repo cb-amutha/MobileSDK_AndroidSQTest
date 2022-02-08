@@ -3,6 +3,7 @@ package com.chargebee.android.billingservice
 
 import android.content.Context
 import android.os.Build
+import androidx.test.core.app.ApplicationProvider
 import com.android.billingclient.api.*
 import com.chargebee.android.Chargebee
 import com.chargebee.android.ErrorDetail
@@ -46,7 +47,7 @@ class BillingClientManagerTest  {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        mContext = RuntimeEnvironment.application.applicationContext
+        mContext = ApplicationProvider.getApplicationContext()
 
         Chargebee.configure(
             site = "cb-imay-test",
@@ -93,8 +94,7 @@ class BillingClientManagerTest  {
         val productIdList = arrayListOf("merchant.pro.android", "merchant.premium.android")
         CoroutineScope(Dispatchers.IO).launch {
             billingClient = callBack?.let {
-                BillingClientManager(
-                        RuntimeEnvironment.application.applicationContext,
+                BillingClientManager(ApplicationProvider.getApplicationContext(),
                         BillingClient.SkuType.SUBS,
                         productIdList, it
                 )
