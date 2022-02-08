@@ -1,4 +1,4 @@
-name: Build
+name: CI
 on:
   push:
     branches:
@@ -35,6 +35,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew build sonarqube --info
+      - name: Jacoco report
+        run: ./gradlew build jacocoTestReport sonarqube
   unit_tests:
     name: Unit tests
     runs-on: ubuntu-latest
@@ -56,9 +58,9 @@ jobs:
            ${{ runner.os }}-gradle-
      - name: Unit tests
        run: ./gradlew :chargebee:testDebugUnitTest
-#      - uses: actions/upload-artifact@v2
-#        if: failure()
-#        with:
-#           name: unit-test-report
-#           path: chargebee/build/reports/tests/testDebugUnitTest/        
-        
+     - uses: actions/upload-artifact@v2
+       if: failure()
+       with:
+          name: unit-test-report
+          path: chargebee/build/reports/tests/testDebugUnitTest/
+
