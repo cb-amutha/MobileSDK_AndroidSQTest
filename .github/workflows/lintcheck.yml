@@ -1,12 +1,11 @@
-name: android-master
+name: lint check
 
 on:
-  pull_request:
-    branches:
-      - 'main'
   push:
     branches:
-      - 'main'
+      - main
+    pull_request:
+      types: [opened, synchronize, reopened]
 
 jobs:
   lint:
