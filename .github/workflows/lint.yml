@@ -23,5 +23,5 @@ jobs:
       - name: Lint results
         uses: actions/upload-artifact@v1
         with:
-          name: app
-          path: app/build/reports/lint-results-debug.html
+          name: chargebee
+          path: chargebee/build/reports/lint-results-debug.html
