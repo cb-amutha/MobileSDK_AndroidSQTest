@@ -1,4 +1,4 @@
-/*
+
 package com.chargebee.android.billingservice
 
 import android.content.Context
@@ -91,18 +91,18 @@ class BillingClientManagerTest  {
     @Test
     fun test_loadProducts_success(){
         val productIdList = arrayListOf("merchant.pro.android", "merchant.premium.android")
+        CoroutineScope(Dispatchers.IO).launch {
+            billingClient = callBack?.let {
+                BillingClientManager(
+                        RuntimeEnvironment.application.applicationContext,
+                        BillingClient.SkuType.SUBS,
+                        productIdList, it
+                )
+            }
 
-        billingClient = callBack?.let {
-            BillingClientManager(
-                RuntimeEnvironment.application.applicationContext,
-                BillingClient.SkuType.SUBS,
-                productIdList, it
-            )
+            billingClient?.startBillingServiceConnection()
+            billingClient?.queryAllPurchases()
         }
-
-        billingClient?.startBillingServiceConnection()
-        billingClient?.queryAllPurchases()
-
         //Mockito.verify(billingClient, times(1))?.queryAllPurchases()
     }
 
@@ -137,79 +137,79 @@ class BillingClientManagerTest  {
 //        }
 //    }
 
-    @Test
-    fun test_retrieveProductIds_success(){
-        val queryParam = arrayOf("100")
-        val lock = CountDownLatch(1)
-        CBPurchase.retrieveProductIDs(queryParam) {
-            when (it) {
-                is CBProductIDResult.ProductIds -> {
-                    lock.countDown()
-                    assertThat(it,instanceOf(CBProductIDResult::class.java))
-                }
-                is CBProductIDResult.Error -> {
-                    lock.countDown()
-                    println(" Error ${it.exp.message}")
-                }
-            }
-        }
-        lock.await()
-    }
-
-    @Test
-    fun test_retrieveProductIds_error(){
-        val queryParam = arrayOf("100")
-        val lock = CountDownLatch(1)
-        CBPurchase.retrieveProductIDs(queryParam) {
-            when (it) {
-                is CBProductIDResult.ProductIds -> {
-                    lock.countDown()
-                    assertThat(it,instanceOf(CBProductIDResult::class.java))
-                }
-                is CBProductIDResult.Error -> {
-                    lock.countDown()
-                    println(" Error ${it.exp.message}")
-                }
-            }
-        }
-        lock.await()
-    }
-    @Test
-    fun test_purchaseProduct_success(){
-        val jsonDetails = "{\"productId\":\"merchant.premium.android\",\"type\":\"subs\",\"title\":\"Premium Plan (Chargebee Example)\",\"name\":\"Premium Plan\",\"price\":\"₹2,650.00\",\"price_amount_micros\":2650000000,\"price_currency_code\":\"INR\",\"description\":\"Every 6 Months\",\"subscriptionPeriod\":\"P6M\",\"skuDetailsToken\":\"AEuhp4J0KiD1Bsj3Yq2mHPBRNHUBdzs4nTJY3PWRR8neE-22MJNssuDzH2VLFKv35Ov8\"}"
-        val skuDetails = SkuDetails(jsonDetails)
-        val products = Products("","","",skuDetails,true)
-        val lock = CountDownLatch(1)
-        CBPurchase.purchaseProduct(products, object : CBCallback.PurchaseCallback<PurchaseModel>{
-            override fun onSuccess(success: PurchaseModel) {
-                lock.countDown()
-                assertThat(success,instanceOf(PurchaseModel::class.java))
-            }
-            override fun onError(error: CBException) {
-                lock.countDown()
-                println(" Error :  ${error.message}")
-            }
-        })
-        lock.await()
-    }
-    @Test
-    fun test_purchaseProduct_error(){
-        val jsonDetails = "{\"productId\":\"merchant.premium.android\",\"type\":\"subs\",\"title\":\"Premium Plan (Chargebee Example)\",\"name\":\"Premium Plan\",\"price\":\"₹2,650.00\",\"price_amount_micros\":2650000000,\"price_currency_code\":\"INR\",\"description\":\"Every 6 Months\",\"subscriptionPeriod\":\"P6M\",\"skuDetailsToken\":\"AEuhp4J0KiD1Bsj3Yq2mHPBRNHUBdzs4nTJY3PWRR8neE-22MJNssuDzH2VLFKv35Ov8\"}"
-        val skuDetails = SkuDetails(jsonDetails)
-        val products = Products("","","",skuDetails,true)
-        val lock = CountDownLatch(1)
-        CBPurchase.purchaseProduct(products, object : CBCallback.PurchaseCallback<PurchaseModel>{
-            override fun onSuccess(success: PurchaseModel) {
-                lock.countDown()
-                assertThat(success,instanceOf(PurchaseModel::class.java))
-            }
-            override fun onError(error: CBException) {
-                lock.countDown()
-                println(" Error :  ${error.message}")
-            }
-        })
-        lock.await()
-    }
+//    @Test
+//    fun test_retrieveProductIds_success(){
+//        val queryParam = arrayOf("100")
+//        val lock = CountDownLatch(1)
+//        CBPurchase.retrieveProductIDs(queryParam) {
+//            when (it) {
+//                is CBProductIDResult.ProductIds -> {
+//                    lock.countDown()
+//                    assertThat(it,instanceOf(CBProductIDResult::class.java))
+//                }
+//                is CBProductIDResult.Error -> {
+//                    lock.countDown()
+//                    println(" Error ${it.exp.message}")
+//                }
+//            }
+//        }
+//        lock.await()
+//    }
+//
+//    @Test
+//    fun test_retrieveProductIds_error(){
+//        val queryParam = arrayOf("100")
+//        val lock = CountDownLatch(1)
+//        CBPurchase.retrieveProductIDs(queryParam) {
+//            when (it) {
+//                is CBProductIDResult.ProductIds -> {
+//                    lock.countDown()
+//                    assertThat(it,instanceOf(CBProductIDResult::class.java))
+//                }
+//                is CBProductIDResult.Error -> {
+//                    lock.countDown()
+//                    println(" Error ${it.exp.message}")
+//                }
+//            }
+//        }
+//        lock.await()
+//    }
+//    @Test
+//    fun test_purchaseProduct_success(){
+//        val jsonDetails = "{\"productId\":\"merchant.premium.android\",\"type\":\"subs\",\"title\":\"Premium Plan (Chargebee Example)\",\"name\":\"Premium Plan\",\"price\":\"₹2,650.00\",\"price_amount_micros\":2650000000,\"price_currency_code\":\"INR\",\"description\":\"Every 6 Months\",\"subscriptionPeriod\":\"P6M\",\"skuDetailsToken\":\"AEuhp4J0KiD1Bsj3Yq2mHPBRNHUBdzs4nTJY3PWRR8neE-22MJNssuDzH2VLFKv35Ov8\"}"
+//        val skuDetails = SkuDetails(jsonDetails)
+//        val products = Products("","","",skuDetails,true)
+//        val lock = CountDownLatch(1)
+//        CBPurchase.purchaseProduct(products, object : CBCallback.PurchaseCallback<PurchaseModel>{
+//            override fun onSuccess(success: PurchaseModel) {
+//                lock.countDown()
+//                assertThat(success,instanceOf(PurchaseModel::class.java))
+//            }
+//            override fun onError(error: CBException) {
+//                lock.countDown()
+//                println(" Error :  ${error.message}")
+//            }
+//        })
+//        lock.await()
+//    }
+//    @Test
+//    fun test_purchaseProduct_error(){
+//        val jsonDetails = "{\"productId\":\"merchant.premium.android\",\"type\":\"subs\",\"title\":\"Premium Plan (Chargebee Example)\",\"name\":\"Premium Plan\",\"price\":\"₹2,650.00\",\"price_amount_micros\":2650000000,\"price_currency_code\":\"INR\",\"description\":\"Every 6 Months\",\"subscriptionPeriod\":\"P6M\",\"skuDetailsToken\":\"AEuhp4J0KiD1Bsj3Yq2mHPBRNHUBdzs4nTJY3PWRR8neE-22MJNssuDzH2VLFKv35Ov8\"}"
+//        val skuDetails = SkuDetails(jsonDetails)
+//        val products = Products("","","",skuDetails,true)
+//        val lock = CountDownLatch(1)
+//        CBPurchase.purchaseProduct(products, object : CBCallback.PurchaseCallback<PurchaseModel>{
+//            override fun onSuccess(success: PurchaseModel) {
+//                lock.countDown()
+//                assertThat(success,instanceOf(PurchaseModel::class.java))
+//            }
+//            override fun onError(error: CBException) {
+//                lock.countDown()
+//                println(" Error :  ${error.message}")
+//            }
+//        })
+//        lock.await()
+//    }
 //    @Test
 //    fun test_validateReceipt_success(){
 //        val purchaseToken = "56sadmnagdjsd"
@@ -288,4 +288,4 @@ class BillingClientManagerTest  {
 //            Mockito.verify(CBReceiptRequestBody("receipt","","",""), times(1)).toCBReceiptReqBody()
 //        }
 //    }
-}*/
+}
