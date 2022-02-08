@@ -1,4 +1,4 @@
-/*
+
 package com.chargebee.android
 
 import android.os.Build
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.LOLLIPOP])
-class CBProductIntegrationTest  {
+class CBProductIntegrationTest {
 
     @Before
     fun setUp() {
@@ -46,7 +46,7 @@ class CBProductIntegrationTest  {
     }
 
     @Test
-    fun test_authentication_success(){
+    fun test_authentication_success() {
         val lock = CountDownLatch(1)
         val auth = Auth(
             Chargebee.sdkKey,
@@ -58,19 +58,20 @@ class CBProductIntegrationTest  {
             when (it) {
                 is ChargebeeResult.Success -> {
                     lock.countDown()
-                    System.out.println("response :"+it.data)
+                    System.out.println("response :" + it.data)
                     assertThat((it.data), instanceOf(CBAuthResponse::class.java))
                 }
                 is ChargebeeResult.Error -> {
                     lock.countDown()
-                    System.out.println("Error :"+it.exp.message)
+                    System.out.println("Error :" + it.exp.message)
                 }
             }
         }
         lock.await(3000, TimeUnit.SECONDS)
     }
+
     @Test
-    fun test_authentication_error(){
+    fun test_authentication_error() {
         val lock = CountDownLatch(1)
         val auth = Auth(
             "Chargebee.sdkKey",
@@ -86,15 +87,15 @@ class CBProductIntegrationTest  {
                 }
                 is ChargebeeResult.Error -> {
                     lock.countDown()
-                    System.out.println("Error :"+it.exp.message)
+                    System.out.println("Error :" + it.exp.message)
                 }
             }
         }
         lock.await(3000, TimeUnit.SECONDS)
     }
 
-    @Test
-    fun test_version1_productID_success(){
+    /*@Test
+    fun test_version1_productID_success() {
         val queryParam1 = arrayOf("Standard", "app_store")
 
         if (CatalogVersion.V1.value == Chargebee.version) {
@@ -103,12 +104,12 @@ class CBProductIntegrationTest  {
                 when (it) {
                     is ChargebeeResult.Success -> {
                         lock.countDown()
-                        System.out.println("List plans :"+it.data)
+                        System.out.println("List plans :" + it.data)
                         assertThat((it.data), instanceOf(PlansWrapper::class.java))
                     }
                     is ChargebeeResult.Error -> {
                         lock.countDown()
-                        System.out.println("Error :"+it.exp.message)
+                        System.out.println("Error :" + it.exp.message)
                     }
                 }
             }
@@ -118,20 +119,20 @@ class CBProductIntegrationTest  {
     }
 
     @Test
-    fun test_version2_productID_success(){
+    fun test_version2_productID_success() {
         val queryParam = arrayOf("Standard", "app_store")
         val lock = CountDownLatch(1)
         if (CatalogVersion.V2.value == Chargebee.version) {
-            Items.retrieveAllItems(queryParam){
+            Items.retrieveAllItems(queryParam) {
                 when (it) {
                     is ChargebeeResult.Success -> {
                         lock.countDown()
-                        System.out.println("List items :"+it.data)
-                        assertThat(it.data,instanceOf(ItemsWrapper::class.java))
+                        System.out.println("List items :" + it.data)
+                        assertThat(it.data, instanceOf(ItemsWrapper::class.java))
                     }
                     is ChargebeeResult.Error -> {
                         lock.countDown()
-                        System.out.println("Error retrieving all items :"+it.exp.message)
+                        System.out.println("Error retrieving all items :" + it.exp.message)
                     }
                 }
             }
@@ -139,8 +140,8 @@ class CBProductIntegrationTest  {
         lock.await(3000, TimeUnit.SECONDS)
     }
 
- */
-/*   @Test
+
+*//*   @Test
     fun test_unknown_productID_success(){
         val lock = CountDownLatch(1)
         if (CatalogVersion.Unknown.value == Chargebee.version) {
@@ -165,7 +166,7 @@ class CBProductIntegrationTest  {
             }
         }
         lock.await(5000, TimeUnit.SECONDS)
-    }*//*
+    }*//**//*
 
     @Test
     fun test_getAllPlans_success(){
@@ -246,8 +247,8 @@ class CBProductIntegrationTest  {
         lock.await(3000, TimeUnit.SECONDS)
     }
 
-   */
-/* @Test
+   *//*
+*//* @Test
     fun test_getProductsFromPlayStore_success(){
         val productIdList = arrayListOf("merchant.pro.android", "merchant.premium.android")
         mContext?.let {
@@ -472,6 +473,6 @@ class CBProductIntegrationTest  {
             Chargebee.channel
         )
         fromCBAuthBody(auth)
-    }
+    }*/
 
-}*/
+}
