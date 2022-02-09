@@ -51,6 +51,32 @@ jacoco {
     toolVersion = "0.8.6"
 }
 
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
+}
+
+tasks.create(name: "jacocoTest", type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class','**/*Activity.*','**/*Activity*.*', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "${buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = fileTree(dir: "${project.projectDir}/src/main/java", excludes: fileFilter)
+//    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories.setFrom(files([mainSrc]))
+    classDirectories.setFrom(files([debugTree]))
+    executionData.setFrom(fileTree(dir: "$buildDir", includes: [
+            "jacoco/testDebugUnitTest.exec",
+//            "outputs/code-coverage/connected/*coverage.ec"
+    ]))
+}
+
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -90,25 +116,22 @@ ext {
 
 apply from: 'deploy.gradle'
 
-task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
+task jacocoTestReport(name: "jacocoTestRep", type: JacocoReport, dependsOn: 'testDebugUnitTest') {
 
     reports {
         xml.enabled = true
         html.enabled = true
     }
 
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
-    def mainSrc = "${project.projectDir}/src/main/java"
+    def fileFilter = ['**/R.class','**/*Activity.*','**/*Activity*.*', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "${buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = fileTree(dir: "${project.projectDir}/src/main/java", excludes: fileFilter)
 
-    //java compiled classes
-   // def javaTree = fileTree(dir: "$project.buildDir/intermediates/javac/debug/classes", excludes: fileFilter)
-    //kotlin compiled classes
-    def kotlinTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
-
-    getSourceDirectories().setFrom([mainSrc])
-    getClassDirectories().setFrom([kotlinTree])
-    getExecutionData().setFrom("${buildDir}/jacoco/testDebugUnitTest.exec")
+    sourceDirectories.setFrom(files([mainSrc]))
+    classDirectories.setFrom(files([debugTree]))
+    //getExecutionData().setFrom("${buildDir}/jacoco/testDebugUnitTest.exec")
+    executionData.setFrom(fileTree(dir: "$buildDir", includes: [
+            "jacoco/testDebugUnitTest.exec"]))
 }
 
 jacocoTestReport {
