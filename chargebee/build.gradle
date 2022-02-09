@@ -1,7 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'jacoco'
+apply from: '../jacoco.gradle'
+apply from: '../sonar.gradle'
 
 android {
     compileSdkVersion 29
@@ -26,16 +27,6 @@ android {
         }
     }
 
-    testOptions {
-        unitTests.all {
-            jacoco {
-                includeNoLocationClasses = true
-                excludes = ['jdk.internal.*']
-            }
-        }
-        unitTests.returnDefaultValues = true
-    }
-
     lintOptions {
         warning 'ReferenceType'
     }
@@ -47,33 +38,9 @@ android {
 
 }
 
-jacoco {
-    toolVersion = "0.8.6"
-}
-
 tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
     jacoco.excludes = ['jdk.internal.*']
-}
-
-tasks.create(name: "jacocoTest", type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    def fileFilter = ['**/R.class','**/*Activity.*','**/*Activity*.*', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', 'android/**/*.*']
-    def debugTree = fileTree(dir: "${buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
-    def mainSrc = fileTree(dir: "${project.projectDir}/src/main/java", excludes: fileFilter)
-//    def mainSrc = "${project.projectDir}/src/main/java"
-
-    sourceDirectories.setFrom(files([mainSrc]))
-    classDirectories.setFrom(files([debugTree]))
-    executionData.setFrom(fileTree(dir: "$buildDir", includes: [
-            "jacoco/testDebugUnitTest.exec",
-//            "outputs/code-coverage/connected/*coverage.ec"
-    ]))
 }
 
 
@@ -116,30 +83,3 @@ ext {
 
 apply from: 'deploy.gradle'
 
-task jacocoTestReport(name: "jacocoTestRep", type: JacocoReport, dependsOn: 'testDebugUnitTest') {
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    def fileFilter = ['**/R.class','**/*Activity.*','**/*Activity*.*', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', 'android/**/*.*']
-    def debugTree = fileTree(dir: "${buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
-    def mainSrc = fileTree(dir: "${project.projectDir}/src/main/java", excludes: fileFilter)
-
-    sourceDirectories.setFrom(files([mainSrc]))
-    classDirectories.setFrom(files([debugTree]))
-    //getExecutionData().setFrom("${buildDir}/jacoco/testDebugUnitTest.exec")
-    executionData.setFrom(fileTree(dir: "$buildDir", includes: [
-            "jacoco/testDebugUnitTest.exec"]))
-}
-
-jacocoTestReport {
-    reports {
-        xml.enabled true
-    }
-}
-//tasks.withType(Test) {
-//    jacoco.includeNoLocationClasses = true
-//    jacoco.excludes = ['jdk.internal.*']
-//}

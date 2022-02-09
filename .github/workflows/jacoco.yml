@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches:
-      - coverage/unit_test_case
+      - coverage/sonar_scan_multimodule
 
 jobs:
   jacoco:
