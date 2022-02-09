@@ -1,3 +1,4 @@
+/*
 
 package com.chargebee.android
 
@@ -94,7 +95,8 @@ class CBProductIntegrationTest {
         lock.await(3000, TimeUnit.SECONDS)
     }
 
-    /*@Test
+    */
+/*@Test
     fun test_version1_productID_success() {
         val queryParam1 = arrayOf("Standard", "app_store")
 
@@ -141,7 +143,9 @@ class CBProductIntegrationTest {
     }
 
 
-*//*   @Test
+*//*
+*/
+/*   @Test
     fun test_unknown_productID_success(){
         val lock = CountDownLatch(1)
         if (CatalogVersion.Unknown.value == Chargebee.version) {
@@ -166,7 +170,11 @@ class CBProductIntegrationTest {
             }
         }
         lock.await(5000, TimeUnit.SECONDS)
-    }*//**//*
+    }*//*
+*/
+/**//*
+*/
+/*
 
     @Test
     fun test_getAllPlans_success(){
@@ -248,7 +256,11 @@ class CBProductIntegrationTest {
     }
 
    *//*
-*//* @Test
+*/
+/*
+*//*
+*/
+/* @Test
     fun test_getProductsFromPlayStore_success(){
         val productIdList = arrayListOf("merchant.pro.android", "merchant.premium.android")
         mContext?.let {
@@ -290,6 +302,8 @@ class CBProductIntegrationTest {
                 })
         }
     }*//*
+*/
+/*
 
     @Test
     fun test_getSubscriptionStatus_success(){
@@ -473,6 +487,8 @@ class CBProductIntegrationTest {
             Chargebee.channel
         )
         fromCBAuthBody(auth)
-    }*/
+    }*//*
+
 
 }
+*/
